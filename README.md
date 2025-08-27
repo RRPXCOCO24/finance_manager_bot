@@ -156,5 +156,5 @@ This project is licensed under the **MIT License** — free to use, modify, and 
 ---
 
 ## 👨‍💻 Author
-Developed by **[Your Name]** ✨  
-If you like this project, don’t forget to ⭐ star the repo!  
+Developed by **[ANSLEM DBRITTO AND JESS LOBO]** ✨  
+
