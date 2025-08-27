@@ -1,160 +1,263 @@
+# Enhanced Finance Tracker
 
-# 📊 Enhanced Finance Tracker
-
-A **command-line personal finance manager** built in **Python** using **SQLite**.  
-It helps you keep track of your **income and expenses**, view **transaction history**, and analyze your **spending habits** by category — all in a simple terminal interface.
+A comprehensive **command-line personal finance manager** built with Python to track income, expenses, and analyze spending patterns across multiple accounts.
 
 ---
 
-## 🌟 Features
-✅ Add **Income** transactions (Salary, Bonus, Gift, etc.)  
-✅ Add **Expense** transactions (Food, Rent, Transport, etc.)  
-✅ View **Current Balance** at any time  
-✅ View **Recent Transactions** (formatted and organized)  
-✅ Get a **Spending Summary** (grouped by categories)  
-✅ Data stored safely in **SQLite database (`personal_finance.db`)**  
-✅ Runs **offline** — no internet needed  
-✅ Clean and simple **menu-driven interface**  
+## ✨ Features
+
+* **Income & Expense Tracking**: Record financial transactions with categories and descriptions.
+* **Multiple Account Support**: Create and manage multiple financial accounts.
+* **Balance Calculation**: Real-time account balance tracking.
+* **Spending Analysis**: View spending breakdown by category with percentage calculations.
+* **Date Filtering**: Filter transactions and reports by date ranges.
+* **Data Export**: Export transaction history to CSV files.
+* **SQLite Database**: Secure and persistent data storage.
+* **User-Friendly Interface**: Intuitive command-line menu system.
 
 ---
 
-## 🗂 Project Structure
+## 🚀 Installation
+
+Clone this repository:
+
+```bash
+git clone https://github.com/yourusername/enhanced-finance-tracker.git
+cd enhanced-finance-tracker
 ```
-enhanced-finance-tracker/
-│-- finance_tracker.py       # Main Python program
-│-- personal_finance.db      # SQLite database file (auto-created)
-│-- README.md                # Project documentation
-```
+
+Ensure you have **Python 3.7+** installed.
+
+> ✅ The application uses only **Python standard library modules**, so no additional dependencies are required.
 
 ---
 
-## ⚙️ How It Works
-1. **Database Setup**
-   - Creates tables:
-     - `accounts` → stores accounts (default: Primary Account).
-     - `transactions` → stores each income/expense.
-     - `snapshots` → stores balance snapshots (future use).
-   - Uses SQLite (lightweight database, works without setup).
+## 📌 Usage
 
-2. **Transactions**
-   - Each transaction includes:
-     - `amount` → how much money  
-     - `type` → income or expense  
-     - `category` → e.g., Salary, Food, Rent  
-     - `description` → optional notes  
-     - `timestamp` → when it was added  
+Run the application with:
 
-3. **Balance Calculation**
-   - **Balance = Total Income – Total Expenses**
+```bash
+python finance_tracker.py
+```
 
-4. **Menu Options**
-   ```
-   1. Add Income
-   2. Add Expense
-   3. View Transactions
-   4. View Spending Summary
-   5. Exit
-   ```
+### Main Menu Options
+
+* **Add Income**: Record income transactions with predefined or custom categories.
+* **Add Expense**: Record expense transactions with predefined or custom categories.
+* **View Transactions**: Display recent transactions with optional date filtering.
+* **View Spending Summary**: Analyze spending by category with visual percentages.
+* **Manage Accounts**: Create new accounts or switch between existing ones.
+* **Export Data**: Export transaction history to CSV format.
+* **Exit**: Safely close the application.
 
 ---
 
-## 🚀 Installation & Setup
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-username/enhanced-finance-tracker.git
-   cd enhanced-finance-tracker
-   ```
+## 📂 Default Categories
 
-2. **Run the program**
-   ```bash
-   python finance_tracker.py
-   ```
-
-3. The database file (`personal_finance.db`) will be created automatically when you run it for the first time.
+**Income Categories:** Salary, Bonus, Investment, Gift, Other
+**Expense Categories:** Food, Rent, Transport, Entertainment, Utilities, Healthcare, Other
 
 ---
 
-## 💻 Usage Example
+## 🗄️ Database Structure
 
-**Main Menu**
-```
-========== PERSONAL FINANCE MANAGER ==========
-Current Balance: 1200.00
+The application uses SQLite with the following tables:
 
-Main Menu:
-1. Add Income
-2. Add Expense
-3. View Transactions
-4. View Spending Summary
-5. Exit
-```
+* **accounts**: Stores account information (ID, name, creation date).
+* **transactions**: Records all financial transactions with timestamps.
+* **snapshots**: Reserved for future balance history features.
 
-**Adding Income**
-```
-========== ADD INCOME ==========
-Current Balance: 1200.00
+---
 
-Amount: 1000
-Category: Salary
-Description: August Salary
+## 📤 Data Export
 
-Income of 1000.00 added successfully!
-New Balance: 2200.00
-```
+Transactions can be exported to CSV format with the following columns:
 
-**Viewing Transactions**
-```
-========== RECENT TRANSACTIONS ==========
-Current Balance: 2200.00
+* `ID`, `Date`, `Type`, `Amount`, `Category`, `Description`
 
-[1] 2025-08-15 +1000.00 | Salary          | August Salary
-[2] 2025-08-16 -200.00  | Food            | Dinner with friends
+---
+
+## 🔧 Function Examples
+
+### 1. Core Functions
+
+```python
+current_time()
+# Example output: "2023-10-15T14:30:45+0000"
+
+format_date_display(timestamp)
+# Input: "2023-10-15T14:30:45+0000"
+# Output: "2023-10-15 14:30"
 ```
 
-**Spending Summary**
+### 2. Transaction Class
+
+```python
+Transaction.display()
+# Example output:
+# "[5] 2023-10-15 14:30 -50.00 | Food           | Grocery shopping"
 ```
+
+### 3. Database Operations
+
+```python
+# Add a new transaction
+db.add_transaction(1, 50.0, "expense", "Food", "Grocery shopping")
+# Returns: 5 (the new transaction ID)
+
+# Get last 20 transactions
+transactions = db.get_transactions(1, 20)
+
+# Get transactions from October 2023
+transactions = db.get_transactions(1, 100, "2023-10-01T00:00:00+0000", "2023-10-31T23:59:59+0000")
+
+# Get balance
+balance = db.get_balance(1)
+# Example: 1250.75
+
+# Get spending summary
+spending = db.get_spending_by_category(1)
+# Example: {"Food": 250.0, "Rent": 1000.0, "Transport": 150.0}
+
+# Get accounts
+accounts = db.get_accounts()
+# Example: [Account(id=1, name="Primary Account", created_at="2023-10-15T14:30:45+0000", balance=1250.75),
+#           Account(id=2, name="Savings Account", created_at="2023-10-16T09:15:30+0000", balance=5000.00)]
+
+# Add account
+account_id = db.add_account("Savings Account")
+# Returns: 2
+
+# Export transactions
+success = db.export_transactions_to_csv(1, "transactions.csv")
+# Returns: True if successful
+```
+
+### 4. User Interface Functions
+
+#### FinanceManager.\_add\_income()
+
+```text
+Example flow:
+1. User selects "Add Income"
+2. Enters amount: 1000
+3. Selects category: 1 (Salary)
+4. Enters description: "Monthly salary"
+5. Transaction added: "Income of 1000.00 added successfully! (ID: 6)"
+```
+
+#### FinanceManager.\_add\_expense()
+
+```text
+Example flow:
+1. User selects "Add Expense"
+2. Enters amount: 50
+3. Selects category: 1 (Food)
+4. Enters description: "Grocery shopping"
+5. Transaction added: "Expense of 50.00 recorded successfully! (ID: 7)"
+```
+
+#### FinanceManager.\_view\_transactions()
+
+```text
+========== TRANSACTIONS ==========
+Date filter: From 2023-10-01 To 2023-10-15
+Current Balance: 1250.75
+
+[7] 2023-10-15 14:30 -50.00 | Food           | Grocery shopping
+[6] 2023-10-15 10:15 +1000.00 | Salary         | Monthly salary
+[5] 2023-10-14 09:30 -25.00 | Transport      | Bus fare
+```
+
+#### FinanceManager.\_view\_spending\_summary()
+
+```text
 ========== SPENDING SUMMARY ==========
-Current Balance: 2000.00
+Current Balance: 1250.75
 
-Food            : 200.00
-Rent            : 800.00
-Transport       : 120.00
+Food           :   250.00 (25.0%)
+Rent           :   500.00 (50.0%)
+Transport      :   150.00 (15.0%)
+Entertainment  :   100.00 (10.0%)
+------------------------------
+TOTAL         :  1000.00
+```
+
+#### FinanceManager.\_manage\_accounts()
+
+```text
+========== MANAGE ACCOUNTS ==========
+Current accounts:
+
+[1] Primary Account       | Balance: 1250.75 *
+[2] Savings Account       | Balance: 5000.00
+
+Options:
+1. Switch account
+2. Create new account
+3. Back to main menu
+```
+
+#### FinanceManager.\_export\_data()
+
+```text
+Example flow:
+1. User selects "Export Data"
+2. Enters date range (optional)
+3. Enters filename: "my_transactions.csv"
+4. File created: "Data successfully exported to my_transactions.csv"
 ```
 
 ---
 
-## 🛠 Technologies Used
-- **Python 3**
-- **SQLite3** (database)
-- **Dataclasses & Enums** (for structured code)
-- **Command-line interface**
+## ⚙️ Customization
+
+### Adding New Categories
+
+```python
+DEFAULT_CATEGORIES = {
+    "income": ["Salary", "Bonus", "Investment", "Gift", "Other", "Your New Category"],
+    "expense": ["Food", "Rent", "Transport", "Entertainment", "Utilities", "Healthcare", "Other", "Your New Category"]
+}
+```
+
+### Changing Database Location
+
+```python
+DB_FILE = "custom_finance.db"
+```
 
 ---
 
-## 📌 Future Improvements
-🔹 Multiple accounts support (e.g., Cash, Bank, Wallet)  
-🔹 Export reports to **CSV/PDF**  
-🔹 Monthly/Yearly summaries  
-🔹 Simple **GUI (Graphical User Interface)** version  
-🔹 Budgeting & Alerts  
+## 🛡️ Error Handling
+
+The application includes comprehensive error handling for:
+
+* Invalid numeric inputs
+* Database connection issues
+* File export errors
+* Invalid date formats
+
+---
+
+## 💾 Backup Recommendations
+
+Regularly back up your database file (**`personal_finance.db` by default**) to prevent data loss.
 
 ---
 
 ## 🤝 Contributing
-Contributions are welcome! 🎉  
-To contribute:
-1. Fork the repo  
-2. Create a new branch (`feature-xyz`)  
-3. Commit your changes  
-4. Open a Pull Request  
+
+Contributions are welcome! Please feel free to submit a **Pull Request**.
 
 ---
 
 ## 📜 License
-This project is licensed under the **MIT License** — free to use, modify, and distribute.
+
+This project is open source and available under the **MIT License**.
 
 ---
 
-## 👨‍💻 Author
-Developed by **[ANSLEM DBRITTO AND JESS LOBO]** ✨  
+## 🆘 Support
 
+If you encounter any issues or have questions, please open an **issue** on the GitHub repository.
